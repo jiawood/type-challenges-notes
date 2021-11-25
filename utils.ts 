@@ -1,0 +1,23 @@
+type Partial<T> = { [K in keyof T]?: T[K] };
+
+type Required<T> = {[K in keyof T]-?: T[K]} // -? 把？去掉
+
+type Readonly<T> = { readonly [P in keyof T]: T[P]} 
+
+type Pick<T,U extends keyof T> = {[K in U]: T[K]}
+
+// 提取T中不包含在U中的元素
+type Exclude<T,U> = T extends U ? never : T  
+// typescript 对于联合类型会自动分发 就是比如说是 string | number extends U 
+// 会变成  string extends U | number extends U 
+
+
+type Extract<T,U> = T extends U ? T : never  // 提取出T包含在U中的元素
+
+
+// 从对象中选出包含在U里面的属性
+type Omit<T,U> = Pick<T,Exclude< keyof T,U>>
+
+// 函数返回的type
+type ReturnType<T> = T extends (...args:any[]) => infer R ? R : any  
+
